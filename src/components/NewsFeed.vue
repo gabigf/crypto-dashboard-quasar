@@ -4,7 +4,7 @@
     show-if-above
     :width="370"
     :breakpoint="700"
-    class="bg-primary text-white"
+    class="bg-accent text-white"
   >
     <h4 class="text-h4 text-center">News Feed</h4>
   </q-drawer>

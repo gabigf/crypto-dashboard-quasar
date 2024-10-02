@@ -1,20 +1,25 @@
 <template>
-  <q-card flat bordered class="my-card">
-    <q-card-section>
-      <div class="text-h6">Currency Converter</div>
-      <button @click="clearAllFields">Clear all</button>
-    </q-card-section>
+  <q-card flat bordered class="my-card flex">
+    <q-card-section class="input-section">
+      <div class="card-header flex justify-between q-mb-lg">
+        <div class="text-h6">Currency Converter</div>
+        <button @click="clearAllFields" class="text-button">Clear all</button>
+      </div>
 
-    <q-card-section>
+      <!-- INPUT 1 - Contains first currency -->
       <q-input
         filled
         v-model="amount"
         type="number"
-        input-class="text-right"
         autofocus
+        @focus="$refs.primaryInputRef.select()"
+        ref="primaryInputRef"
+        input-class="text-right"
+        class="input"
+        dense
       >
         <template v-slot:before>
-          <q-btn-dropdown color="primary" :label="chosenPrimaryCurrency">
+          <q-btn-dropdown color="accent" :label="chosenPrimaryCurrency">
             <q-list>
               <q-item
                 v-for="(item, index) in currencies"
@@ -32,9 +37,19 @@
         </template>
       </q-input>
 
-      <q-input filled v-model="result" type="number" input-class="text-right">
+      <!-- INPUT 2 - Contains second currency -->
+      <q-input
+        filled
+        v-model="result"
+        type="number"
+        @focus="$refs.secondaryInputRef.select()"
+        ref="secondaryInputRef"
+        input-class="text-right"
+        class="input"
+        dense
+      >
         <template v-slot:before>
-          <q-btn-dropdown color="primary" :label="chosenSecondaryCurrency">
+          <q-btn-dropdown color="accent" :label="chosenSecondaryCurrency">
             <q-list>
               <q-item
                 v-for="(item, index) in currencies"
@@ -51,11 +66,19 @@
           </q-btn-dropdown>
         </template>
       </q-input>
+
+      <!-- CONVERT BUTTON -->
+      <q-btn
+        unelevated
+        rounded
+        color="accent"
+        label="Convert"
+        class="convert-button"
+        @click="onConvert"
+      />
     </q-card-section>
 
-    <q-separator inset />
-
-    <q-card-section>
+    <q-card-section class="exchange-rate-section">
       <ExchangeRate :exchange-data="exchangedData" />
     </q-card-section>
   </q-card>
@@ -85,8 +108,10 @@ const result = ref(null);
 function onItemClick(item, currencyToChange) {
   if (currencyToChange === "primary") {
     chosenPrimaryCurrency.value = item;
+    exchangedData.primaryCurrency = item;
   } else if (currencyToChange === "secondary") {
     chosenSecondaryCurrency.value = item;
+    exchangedData.secondaryCurrency = item;
   }
 }
 
@@ -94,4 +119,48 @@ function clearAllFields() {
   amount.value = 0;
   result.value = 0;
 }
+
+function onConvert() {
+  console.log("clicked");
+}
 </script>
+
+<style>
+.my-card {
+  width: 60vw;
+  border-radius: 15px;
+}
+
+.text-button {
+  border: none;
+  background-color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.text-button:hover {
+  color: gray;
+}
+
+.input-section {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.convert-button {
+  align-self: end;
+}
+
+.exchange-rate-section {
+  border-top-right-radius: inherit !important;
+  background-color: #122f3f;
+  color: white;
+  width: 50%;
+}
+</style>
