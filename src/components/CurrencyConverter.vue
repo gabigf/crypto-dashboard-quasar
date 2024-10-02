@@ -2,7 +2,7 @@
   <q-card flat bordered class="my-card flex">
     <q-card-section class="input-section">
       <div class="card-header flex justify-between q-mb-lg">
-        <div class="text-h6">Currency Converter</div>
+        <h6 class="text-h6">Currency Converter</h6>
         <button @click="clearAllFields" class="text-button">Clear all</button>
       </div>
 
@@ -129,6 +129,10 @@ function onConvert() {
 .my-card {
   width: 60vw;
   border-radius: 15px;
+}
+
+.card-header h6 {
+  margin: 0;
 }
 
 .text-button {
