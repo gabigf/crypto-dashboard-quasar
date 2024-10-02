@@ -1,6 +1,10 @@
 <template>
   <p>Exchange Rate</p>
-  <p>{{ props.exchangeData }}</p>
+  <p>{{ props.exchangeData.exchangeRate }}</p>
+  <p>
+    {{ props.exchangeData.primaryCurrency }} to
+    {{ props.exchangeData.secondaryCurrency }}
+  </p>
 </template>
 
 <script setup>

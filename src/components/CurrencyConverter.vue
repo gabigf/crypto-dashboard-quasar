@@ -2,11 +2,17 @@
   <q-card flat bordered class="my-card">
     <q-card-section>
       <div class="text-h6">Currency Converter</div>
-      <button>Clear all</button>
+      <button @click="clearAllFields">Clear all</button>
     </q-card-section>
 
     <q-card-section>
-      <q-input filled v-model="amount" type="number" input-class="text-right">
+      <q-input
+        filled
+        v-model="amount"
+        type="number"
+        input-class="text-right"
+        autofocus
+      >
         <template v-slot:before>
           <q-btn-dropdown color="primary" :label="chosenPrimaryCurrency">
             <q-list>
@@ -15,7 +21,7 @@
                 :key="index"
                 clickable
                 v-close-popup
-                @click="onItemClick"
+                @click="onItemClick(item, 'primary')"
               >
                 <q-item-section>
                   <q-item-label>{{ item }}</q-item-label>
@@ -35,7 +41,7 @@
                 :key="index"
                 clickable
                 v-close-popup
-                @click="onItemClick"
+                @click="onItemClick(item, 'secondary')"
               >
                 <q-item-section>
                   <q-item-label>{{ item }}</q-item-label>
@@ -74,9 +80,18 @@ const exchangedData = reactive({
   exchangeRate: 0,
 });
 
-const result = ref(0);
+const result = ref(null);
 
-function onItemClick() {
-  // console.log('Clicked on an Item')
+function onItemClick(item, currencyToChange) {
+  if (currencyToChange === "primary") {
+    chosenPrimaryCurrency.value = item;
+  } else if (currencyToChange === "secondary") {
+    chosenSecondaryCurrency.value = item;
+  }
+}
+
+function clearAllFields() {
+  amount.value = 0;
+  result.value = 0;
 }
 </script>
