@@ -1,5 +1,5 @@
 <template>
-  <div class="card-header flex justify-center q-mb-lg">
+  <div class="card-header flex justify-center">
     <h6 class="text-h6">Exchange Rate</h6>
   </div>
   <div class="flex column items-center">

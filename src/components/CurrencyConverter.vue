@@ -78,7 +78,9 @@
       />
     </q-card-section>
 
-    <q-card-section class="exchange-rate-section">
+    <q-card-section
+      class="exchange-rate-section flex column items-center justify-center"
+    >
       <ExchangeRate :exchange-data="exchangedData" />
     </q-card-section>
   </q-card>
