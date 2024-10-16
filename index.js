@@ -14,7 +14,7 @@ app.get("/news", (req, res) => {
     method: "GET",
     url: "https://crypto-news51.p.rapidapi.com/api/v1/crypto/articles",
     params: {
-      page: "1",
+      page: req.query.page,
       limit: "10",
       time_frame: "24h",
       format: "json",
