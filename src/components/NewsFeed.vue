@@ -49,7 +49,7 @@
 
 <script setup>
 import axios from "axios";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const drawerLeft = true;
 const newsFeed = ref(null);

@@ -89,6 +89,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import ExchangeRate from "./ExchangeRate.vue";
+import axios from "axios";
 
 defineOptions({
   name: "CurrencyConverter",
@@ -96,16 +97,14 @@ defineOptions({
 
 const currencies = ["BTC", "ETH", "USD", "XRP", "LTC", "ADA"];
 const chosenPrimaryCurrency = ref("BTC");
-const chosenSecondaryCurrency = ref("BTC");
+const chosenSecondaryCurrency = ref("USD");
 const amount = ref(1);
-
+const result = ref(null);
 const exchangedData = reactive({
   primaryCurrency: "BTC",
-  secondaryCurrency: "BTC",
+  secondaryCurrency: "USD",
   exchangeRate: 0,
 });
-
-const result = ref(null);
 
 function onItemClick(item, currencyToChange) {
   if (currencyToChange === "primary") {
@@ -118,12 +117,30 @@ function onItemClick(item, currencyToChange) {
 }
 
 function clearAllFields() {
-  amount.value = 0;
-  result.value = 0;
+  amount.value = null;
+  result.value = null;
 }
 
 function onConvert() {
-  console.log("clicked");
+  const options = {
+    method: "GET",
+    url: "http://localhost:8000/convert",
+    params: {
+      from_currency: chosenPrimaryCurrency.value,
+      function: "CURRENCY_EXCHANGE_RATE",
+      to_currency: chosenSecondaryCurrency.value,
+    },
+  };
+
+  axios
+    .request(options)
+    .then((response) => {
+      exchangedData.exchangeRate = response.data;
+      result.value = response.data * amount.value;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }
 </script>
 
